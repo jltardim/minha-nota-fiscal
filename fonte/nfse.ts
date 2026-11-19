@@ -401,7 +401,11 @@ const buscarEmitida = async (cert: Certificado, est: Estado): Promise<{ chave: s
     if (!xml) return { chave }
     const mesmoValor = valorXml(xml, 'vServ') === (centavos(est.pedido.valor) / 100).toFixed(2)
     const doc = digitos(est.pedido.tomador?.documento ?? '')
-    return mesmoValor && (!doc || xml.includes(`>${doc}<`)) ? { chave, xml } : 'de-outra-nota'
+    // A descrição também precisa bater: duas notas de teste com o mesmo valor e o mesmo cliente não se confundem.
+    const servico = carregarEmpresa().servicos.find((s) => s.apelido === est.pedido.servico || s.codigo === est.pedido.servico)
+    const descricao = (est.pedido.descricao ?? servico?.descricaoPadrao ?? '').trim().slice(0, 1000).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    const mesmaDescricao = !descricao || xml.includes(`<xDescServ>${descricao}</xDescServ>`)
+    return mesmoValor && mesmaDescricao && (!doc || xml.includes(`>${doc}<`)) ? { chave, xml } : 'de-outra-nota'
   } catch {
     return 'sem-resposta'
   }
