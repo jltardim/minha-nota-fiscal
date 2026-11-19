@@ -1,0 +1,15 @@
+{
+  "ambiente": "testes",
+  "cnpj": "00.000.000/0001-00",
+  "razaoSocial": "NOME DA EMPRESA LTDA",
+  "municipio": "0000000",
+  "inscricaoMunicipal": "",
+  "opcaoSimples": "3",
+  "apuracaoSimples": "1",
+  "aliquotaAproximadaSimples": "0.00",
+  "serie": "1",
+  "certificado": "certificado/empresa.pfx",
+  "servicos": [
+    { "apelido": "consultoria", "codigo": "000000", "nbs": "", "descricaoPadrao": "Descrição do serviço" }
+  ]
+}

@@ -1,0 +1,13 @@
+# Nunca vão para o Git: o certificado, o cadastro e as notas da empresa.
+certificado/*
+!certificado/LEIA-ME.md
+empresa.json
+notas/*
+!notas/.gitkeep
+*.pfx
+*.p12
+*.pem
+*.key
+.env
+node_modules/
+.DS_Store
