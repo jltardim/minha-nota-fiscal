@@ -17,7 +17,7 @@ o mesmo. Se a skill não carregar sozinha, leia o arquivo e siga.
 ## Regras de ouro
 
 1. **Nada é emitido sem o OK explícito da pessoa** no resumo da prévia. Cancelar também.
-2. **A senha do certificado nunca passa pelo chat** (entra pela janela do `guardar-senha` e fica no Keychain).
+2. **A senha do certificado nunca passa pelo chat** (entra pela janela do `guardar-senha` e fica no cofre do computador).
 3. **`certificado/`, `empresa.json` e `notas/` nunca saem do computador:** sem commit, sem upload, sem colar no chat.
 4. **Nunca invente dado fiscal** (valor, alíquota, código de serviço, regime). Pergunte.
 5. **Primeiro o ambiente de testes.** Produção só quando a pessoa pedir, depois de um teste certo.

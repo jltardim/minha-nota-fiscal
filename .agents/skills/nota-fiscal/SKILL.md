@@ -15,8 +15,8 @@ Fale em português simples, frases curtas. A pessoa não precisa saber programar
 
 1. **Nunca emita sem o OK explícito** da pessoa no resumo da `previa`. "Pode", "ok", "aprovado", "emite" valem.
    Silêncio, "acho que sim" ou aprovação de outra nota não valem. Cancelar também só com OK explícito.
-2. **Nunca peça a senha do certificado no chat.** Ela entra por uma janela do Mac (`guardar-senha`) e fica no
-   Keychain. Se a pessoa colar a senha no chat, avise que não precisava e siga pela janela.
+2. **Nunca peça a senha do certificado no chat.** Ela entra por uma janela do próprio sistema (`guardar-senha`) e
+   fica no cofre do computador: Keychain no Mac, cofre do usuário (DPAPI) no Windows, chaveiro no Linux. Se a pessoa colar a senha no chat, avise que não precisava e siga pela janela.
 3. **Nunca abra, copie para fora, envie ou faça commit** de `certificado/`, `empresa.json` ou `notas/`. Eles já estão
    no `.gitignore`. Não leia o `.pfx` nem o Keychain com outros comandos.
 4. **Nunca invente dado fiscal:** valor, alíquota, código de serviço, regime, CNPJ, endereço. Se não souber, pergunte.
@@ -66,10 +66,11 @@ Faça em ordem, uma pergunta por vez.
    - `descricaoPadrao`.
 6. **Certificado A1.** Peça para a pessoa colocar o arquivo `.pfx` (ou `.p12`) dentro da pasta `certificado/` com
    o nome `empresa.pfx`. Se ela disser onde está o arquivo, você pode copiar para lá, com o OK dela. Depois:
-   - `node ferramentas/nfse.mjs guardar-senha`: abre uma janela do Mac. Avise antes: "vai abrir uma janela pedindo a
-     senha do certificado; digite lá, não aqui".
+   - `node ferramentas/nfse.mjs guardar-senha`: abre uma janela do sistema (no Windows, a janela de credencial do
+     próprio Windows). Avise antes: "vai abrir uma janela pedindo a senha do certificado; digite lá, não aqui".
    - `node ferramentas/nfse.mjs certificado`: confira se o CNPJ do certificado é o da empresa e a validade.
-   - Fora do Mac: a pessoa define a variável `NFSE_SENHA_CERTIFICADO` no próprio terminal, sem colar no chat.
+   - Se o sistema não tiver janela de senha (Linux sem zenity), a pessoa define a variável `NFSE_SENHA_CERTIFICADO`
+     no próprio terminal, sem colar no chat.
 7. Grave o `empresa.json` (modelo em `empresa.exemplo.json`) com `"ambiente": "testes"` e `"serie": "1"`.
 8. `node ferramentas/nfse.mjs verificar`. Ele confere tudo e pergunta ao governo se a **cidade** está conveniada ao
    Sistema Nacional:

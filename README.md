@@ -5,7 +5,8 @@ oficial do governo (Sistema Nacional NFS-e, o mesmo do Emissor Nacional), usando
 
 - **Sem mensalidade, sem servidor, sem custo por nota.** Tudo roda no seu computador.
 - **Nada sai sem o seu OK.** A IA monta a nota, mostra o resumo e só envia quando você aprova.
-- **A senha do certificado nunca passa pelo chat.** Ela vai para o Keychain do Mac por uma janela do sistema.
+- **A senha do certificado nunca passa pelo chat.** Ela é digitada numa janela do próprio sistema e fica no cofre do
+  seu computador (Keychain no Mac, cofre do usuário no Windows, chaveiro no Linux).
 - **Confere a sua cidade antes.** Nem toda prefeitura aceita o Emissor Nacional, e a ferramenta avisa.
 
 > Testado de verdade em novembro de 2026: emissão e cancelamento pela API, em produção, para uma ME do Simples Nacional.
@@ -16,7 +17,9 @@ oficial do governo (Sistema Nacional NFS-e, o mesmo do Emissor Nacional), usando
    do governo não aceita a nota. Ele é comprado numa certificadora e vale um ano.
 2. **Empresa no Simples Nacional (MEI ou ME/EPP)**. Empresas fora do Simples ainda não são atendidas: desde
    agosto de 2026 a nota delas exige IBS/CBS.
-3. **Um Mac** (no Windows e no Linux funciona, mas a senha precisa ir numa variável do terminal).
+3. **Um computador com Mac, Windows ou Linux.** Não precisa instalar OpenSSL nem nada além do Node.js.
+   (Mac: testado em produção. Windows e Linux: o código está pronto, mas ainda não foi testado numa máquina real;
+   se der algum erro, abra uma issue.)
 4. **Claude Code ou Codex** instalado, e o **Node.js** (gratuito, em nodejs.org, versão LTS).
 5. Ter em mãos **uma nota antiga** sua do Emissor Nacional ajuda muito: dela saem o código do serviço e o NBS.
 

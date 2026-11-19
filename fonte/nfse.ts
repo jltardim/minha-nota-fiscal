@@ -6,7 +6,7 @@ import { dirname, isAbsolute, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { gzipSync } from 'node:zlib'
 import { assinarXml } from './assinatura'
-import { abrirPfx, carregarCertificado, ErroCertificado, guardarSenha, pastaSincronizada, pedirSenhaNaTela, type Certificado } from './certificado'
+import { abrirPfx, carregarCertificado, ErroCertificado, guardarSenha, nomeDoCofre, pastaSincronizada, pedirSenhaNaTela, type Certificado } from './certificado'
 import { publicLookupUrl, renderDanfse } from './danfse'
 import { dataBrasilia, digitos, montarCancelamento, montarDps, servidores, valorXml, type Ambiente, type Emitente, type Tomador } from './dps'
 import { chamar, errosDoGoverno, type ErroGoverno, type Resposta } from './governo'
@@ -283,7 +283,7 @@ const validarXsd = (xml: string, amb: Ambiente, esquema: string, arq: string): s
     return undefined
   } catch (erro) {
     const saida = String((erro as { stderr?: Buffer }).stderr ?? (erro as Error).message)
-    if (/ENOENT/.test(saida)) return undefined // sem xmllint: o governo valida de qualquer jeito
+    if ((erro as { code?: string }).code === 'ENOENT' || /ENOENT/.test(saida)) return undefined // sem xmllint (ex.: Windows): o governo valida de qualquer jeito
     return saida.split('\n').filter((l) => l && !l.endsWith('fails to validate')).slice(0, 5).join('\n')
   }
 }
@@ -417,7 +417,7 @@ Cadastro
   cnpj <cnpj>                 consulta pública do CNPJ (BrasilAPI): nome, cidade, Simples/MEI
   cep <cep>                   endereço e código IBGE da cidade (ViaCEP)
   certificado [arquivo.pfx]   abre o certificado e mostra titular, CNPJ e validade
-  guardar-senha               abre uma janela do Mac para a senha do certificado e guarda no Keychain
+  guardar-senha               abre uma janela do sistema para a senha do certificado e guarda no cofre do computador
   verificar                   confere o empresa.json, o certificado e se a cidade está no Sistema Nacional
 
 Notas
@@ -503,12 +503,12 @@ const cmdGuardarSenha = () => {
   if (!existsSync(caminho)) sair(`Não achei o certificado em ${caminho}.`)
   const pfx = readFileSync(caminho)
   for (let tentativa = 1; tentativa <= 3; tentativa++) {
-    const senha = pedirSenhaNaTela(tentativa === 1 ? 'Digite a senha do certificado digital (A1) da empresa. Ela vai direto para o Keychain do Mac e não aparece no chat.' : 'Senha incorreta. Tente de novo:')
+    const senha = pedirSenhaNaTela(tentativa === 1 ? `Digite a senha do certificado digital (A1) da empresa. Ela vai direto para o ${nomeDoCofre()} e não aparece no chat.` : 'Senha incorreta. Tente de novo:')
     if (senha === undefined) sair('Cancelado. Nada foi guardado.')
     try {
       const cert = abrirPfx(pfx, senha as string)
       guardarSenha(digitos((emp as Empresa).cnpj), senha as string)
-      console.log(`Senha guardada no Keychain. Certificado de ${cert.titular}, válido até ${dataBr(cert.validoAte)}.`)
+      console.log(`Senha guardada no ${nomeDoCofre()}. Certificado de ${cert.titular}, válido até ${dataBr(cert.validoAte)}.`)
       return
     } catch (erro) {
       if (!(erro instanceof ErroCertificado) || !/incorreta/.test(erro.message)) sair(erro instanceof Error ? erro.message : String(erro))
