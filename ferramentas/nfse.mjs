@@ -40679,6 +40679,9 @@ var montarDps = (d) => {
       ])
     ]),
     d.tomador ? tomadorXml(d.tomador) : "",
+    // Produção restrita (esquemas de 24/11/2026): indDest saiu do grupo IBSCBS e virou obrigatório aqui.
+    // 0 = o destinatário é o próprio tomador.
+    d.ambiente === "testes" ? el("indDest", "0") : "",
     el("serv", [
       el("locPrest", [el("cLocPrestacao", d.municipioPrestacao ?? emitente.municipio)]),
       // Produção (1.01) tem cNBS depois da descrição; a produção restrita (NT 009) passou para antes.
